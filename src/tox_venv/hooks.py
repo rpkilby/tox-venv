@@ -33,7 +33,7 @@ def tox_testenv_create(venv, action):
     # Bypass hook when venv is not available for the target Python ver
     info = venv.envconfig.config.interpreters.get_info(
         envconfig=venv.envconfig)
-    if info.version_info < (3, 3):
+    if info.version_info is None or info.version_info < (3, 3):
         return
 
     config_interpreter = venv.getsupportedinterpreter()
