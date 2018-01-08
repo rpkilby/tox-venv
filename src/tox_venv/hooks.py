@@ -29,8 +29,11 @@ def real_python3(python):
 
 @hookimpl
 def tox_testenv_create(venv, action):
-    # defautl to tox impl if not python3
-    if not venv._ispython3():
+
+    # Bypass hook when venv is not available for the target Python ver
+    info = venv.envconfig.config.interpreters.get_info(
+        envconfig=venv.envconfig)
+    if info.version_info < (3, 3):
         return
 
     config_interpreter = venv.getsupportedinterpreter()
