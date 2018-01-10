@@ -29,11 +29,9 @@ def real_python3(python):
 
 @hookimpl
 def tox_testenv_create(venv, action):
-
-    # Bypass hook when venv is not available for the target Python ver
-    info = venv.envconfig.config.interpreters.get_info(
-        envconfig=venv.envconfig)
-    if info.version_info is None or info.version_info < (3, 3):
+    # Bypass hook when venv is not available for the target python version
+    version = venv.envconfig.python_info.version_info
+    if version is not None and version < (3, 3):
         return
 
     config_interpreter = venv.getsupportedinterpreter()

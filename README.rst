@@ -1,8 +1,8 @@
 tox-venv
 ========
 
-.. image:: https://travis-ci.org/rpkilby/tox-venv.svg?branch=master
-  :target: https://travis-ci.org/rpkilby/tox-venv
+.. image:: https://travis-ci.org/tox-dev/tox-venv.svg?branch=master
+  :target: https://travis-ci.org/tox-dev/tox-venv
 
 
 What is tox-venv?
