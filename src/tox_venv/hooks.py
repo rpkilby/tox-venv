@@ -1,5 +1,6 @@
 import os
 import subprocess
+import platform
 
 from tox.config import hookimpl
 
@@ -15,7 +16,12 @@ def real_python3(python):
     process = subprocess.Popen(args, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
     output, _ = process.communicate()
     output = output.decode('UTF-8').strip()
-    path = os.path.join(output, 'bin/python3')
+    path_to_python = (
+        r'Scripts\python.exe'
+        if platform.system() == 'Windows' else
+        'bin/python3'
+    )
+    path = os.path.join(output, path_to_python)
 
     valid = process.returncode == 0 and os.path.isfile(path)
     return path if valid else python
