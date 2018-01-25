@@ -17,8 +17,13 @@ def real_python3(python):
     output = output.decode('UTF-8').strip()
     path = os.path.join(output, 'bin/python3')
 
-    valid = process.returncode == 0 and os.path.isfile(path)
-    return path if valid else python
+    # process fails, implies *not* in active virtualenv
+    if not process.returncode == 0:
+        return python
+
+    # the executable path must exist
+    assert os.path.isfile(path)
+    return path
 
 
 def use_builtin_venv(venv):
