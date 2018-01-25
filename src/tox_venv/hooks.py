@@ -6,9 +6,22 @@ from tox.config import hookimpl
 
 def real_python3(python):
     """
-    use real_prefix to determine if we're running inside a virtualenv,
-    and if so, use it as the base path to determine the real python
-    executable path.
+    Determine the path of the real python executable, which is then used for
+    venv creation. This is necessary, because an active virtualenv environment
+    will cause venv creation to malfunction. By getting the path of the real
+    executable, this issue is bypassed.
+
+    The provided `python` path may be either:
+    - A real python executable
+    - A virtualized python executable (with venv)
+    - A virtualized python executable (with virtualenv)
+
+    If the virtual environment was created with virtualenv, the `sys` module
+    will have a `real_prefix` attribute, which points to the directory where
+    the real python files are installed.
+
+    If `real_prefix` is not present, the environment was not created with
+    virtualenv, and the python executable is safe to use.
     """
     args = [str(python), '-c', 'import sys; print(sys.real_prefix)']
 
