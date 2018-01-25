@@ -16,7 +16,6 @@ install:
 
 test_script:
   - C:\Python36\scripts\tox
-  - C:\Python36\scripts\tox --installpkg ./dist/tox_venv-*.whl
 
 cache:
   - '%LOCALAPPDATA%\pip\cache'
