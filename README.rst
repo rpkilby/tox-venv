@@ -3,6 +3,9 @@ tox-venv
 
 .. image:: https://travis-ci.org/tox-dev/tox-venv.svg?branch=master
   :target: https://travis-ci.org/tox-dev/tox-venv
+.. image:: https://ci.appveyor.com/api/projects/status/fak35ur9yibmn0ly?svg=true
+  :target: https://ci.appveyor.com/project/rpkilby/tox-venv
+
 
 
 What is tox-venv?
