@@ -21,11 +21,20 @@ def real_python3(python):
     return path if valid else python
 
 
+def use_builtin_venv(venv):
+    """
+    Determine if the builtin venv module should be used to create the testenv's
+    virtual environment. The venv module was added in python 3.3, although some
+    options are not supported until 3.4 and later.
+    """
+    version = venv.envconfig.python_info.version_info
+    return version is not None and version >= (3, 3)
+
+
 @hookimpl
 def tox_testenv_create(venv, action):
     # Bypass hook when venv is not available for the target python version
-    version = venv.envconfig.python_info.version_info
-    if version is not None and version < (3, 3):
+    if not use_builtin_venv(venv):
         return
 
     config_interpreter = venv.getsupportedinterpreter()

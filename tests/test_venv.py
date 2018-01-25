@@ -13,6 +13,8 @@ from tox.venv import getdigest
 from tox.venv import tox_testenv_install_deps
 from tox.venv import VirtualEnv
 
+from tox_venv.hooks import use_builtin_venv
+
 
 def tox_testenv_create(action, venv):
     return venv.hook.tox_testenv_create(action=action, venv=venv)
@@ -59,11 +61,11 @@ def test_create(monkeypatch, mocksession, newconfig):
     pcalls = mocksession._pcalls
     assert len(pcalls) >= 1
     args = pcalls[0].args
-    module = 'venv' if venv._ispython3() else 'virtualenv'
+    module = 'venv' if use_builtin_venv(venv) else 'virtualenv'
     assert module == str(args[2])
     if sys.platform != "win32":
         executable = sys.executable
-        if venv._ispython3() and hasattr(sys, 'real_prefix'):
+        if use_builtin_venv(venv) and hasattr(sys, 'real_prefix'):
             # workaround virtualenv prefixing issue w/ venv on python3
             _, executable = executable.rsplit('bin/', 1)
             executable = os.path.join(sys.real_prefix, 'bin/', executable)
@@ -489,7 +491,7 @@ class TestCreationConfig:
         assert venv.path_config.check()
         assert mocksession._pcalls
         args1 = map(str, mocksession._pcalls[0].args)
-        module = 'venv' if venv._ispython3() else 'virtualenv'
+        module = 'venv' if use_builtin_venv(venv) else 'virtualenv'
         assert module in " ".join(args1)
         mocksession.report.expect("*", "*create*")
         # modify config and check that recreation happens

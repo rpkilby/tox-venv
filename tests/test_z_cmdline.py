@@ -16,6 +16,8 @@ pytest_plugins = "pytester"
 from tox.session import Session  # noqa #E402 module level import not at top of file
 from tox.config import parseconfig  # noqa #E402 module level import not at top of file
 
+from tox_venv.hooks import use_builtin_venv
+
 
 def test_report_protocol(newconfig):
     config = newconfig([], """
@@ -680,7 +682,7 @@ def test_alwayscopy(initproj, cmd, mocksession):
     assert not result.ret
 
     out = result.stdout.str()
-    if venv._ispython3():
+    if use_builtin_venv(venv):
         assert "venv --copies" in out
     else:
         assert "virtualenv --always-copy" in out
@@ -696,7 +698,7 @@ def test_alwayscopy_default(initproj, cmd, mocksession):
     assert not result.ret
 
     out = result.stdout.str()
-    if venv._ispython3():
+    if use_builtin_venv(venv):
         assert "venv --copies" not in out
     else:
         assert "virtualenv --always-copy" not in out
