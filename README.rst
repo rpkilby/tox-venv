@@ -34,6 +34,20 @@ __ https://github.com/pypa/virtualenv/issues/355
 By using the builtin ``venv`` module, these issues can be avoided.
 
 
+Installation & Usage
+--------------------
+
+To use tox-venv, install it alongside tox in your environment. Then, run ``tox`` as normal - no configuration necessary.
+
+.. code-block::
+
+    $ pip install tox tox-venv
+    $ tox
+
+If you have already ran tox, it's necessary to recreate the test envs. Either run ``tox --recreate``, or delete the
+``.tox`` directory.
+
+
 Compatibility
 -------------
 
