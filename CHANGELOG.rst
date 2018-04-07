@@ -1,6 +1,9 @@
 Unreleased
 ==========
 
+- Update test suite from tox 3.
+- Add installation & usage docs.
+
 0.2.0 (2018-01-28)
 ==================
 
