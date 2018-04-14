@@ -933,11 +933,11 @@ def test_exit_code(initproj, cmd, exit_code, mocker):
     tox_ini_content = "[testenv:foo]\ncommands=python -c 'import sys; sys.exit(%d)'" % exit_code
     initproj("foo", filedefs={'tox.ini': tox_ini_content})
     cmd()
+    try:
+        from tox.exc import exit_code_str
+    except ImportError:
+        from tox import _exit_code_str as exit_code_str
     if exit_code:
-        try:
-            from tox.exc import exit_code_str
-        except ImportError:
-            from tox import _exit_code_str as exit_code_str
         # need mocker.spy above
         assert exit_code_str.call_count == 1
         (args, kwargs) = exit_code_str.call_args
