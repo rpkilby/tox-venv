@@ -1,12 +1,12 @@
 import os
 import sys
 
+import pluggy
 import py
 import pytest
 
 import tox
 import tox.config
-from tox.hookspecs import hookimpl
 from tox.interpreters import NoInterpreterInfo
 from tox.venv import CreationConfig
 from tox.venv import getdigest
@@ -15,13 +15,7 @@ from tox.venv import VirtualEnv
 
 from tox_venv.hooks import use_builtin_venv
 
-# def test_global_virtualenv(capfd):
-#    v = VirtualEnv()
-#    assert v.list()
-#    out, err = capfd.readouterr()
-#    assert not out
-#    assert not err
-#
+hookimpl = pluggy.HookimplMarker("tox")
 
 
 def tox_testenv_create(action, venv):
