@@ -2,7 +2,9 @@ import os
 import platform
 import subprocess
 
-from tox.config import hookimpl
+import pluggy
+
+hookimpl = pluggy.HookimplMarker("tox")
 
 
 def real_python3(python):
