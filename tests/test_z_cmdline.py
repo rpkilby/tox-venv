@@ -934,9 +934,13 @@ def test_exit_code(initproj, cmd, exit_code, mocker):
     initproj("foo", filedefs={'tox.ini': tox_ini_content})
     cmd()
     if exit_code:
+        try:
+            from tox.exc import exit_code_str
+        except ImportError:
+            from tox import _exit_code_str as exit_code_str
         # need mocker.spy above
-        assert tox._exit_code_str.call_count == 1
-        (args, kwargs) = tox._exit_code_str.call_args
+        assert exit_code_str.call_count == 1
+        (args, kwargs) = exit_code_str.call_args
         assert kwargs == {}
         (call_error_name, call_command, call_exit_code) = args
         assert call_error_name == 'InvocationError'
@@ -947,4 +951,4 @@ def test_exit_code(initproj, cmd, exit_code, mocker):
         assert call_exit_code == exit_code
     else:
         # need mocker.spy above
-        assert tox._exit_code_str.call_count == 0
+        assert exit_code_str.call_count == 0
