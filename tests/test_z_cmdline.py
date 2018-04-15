@@ -934,7 +934,7 @@ def test_exit_code(initproj, cmd, exit_code, mocker):
     initproj("foo", filedefs={'tox.ini': tox_ini_content})
     cmd()
     try:
-        from tox.exc import exit_code_str
+        from tox.exception import exit_code_str
     except ImportError:
         from tox import _exit_code_str as exit_code_str
     if exit_code:
