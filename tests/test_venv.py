@@ -15,8 +15,6 @@ from tox.venv import VirtualEnv
 
 from tox_venv.hooks import use_builtin_venv
 
-hookimpl = pluggy.HookimplMarker("tox")
-
 
 def tox_testenv_create(action, venv):
     return venv.hook.tox_testenv_create(action=action, venv=venv)
@@ -742,11 +740,11 @@ def test_tox_testenv_create(newmocksession):
     log = []
 
     class Plugin:
-        @hookimpl
+        @tox.hookimpl
         def tox_testenv_create(self, action, venv):
             log.append(1)
 
-        @hookimpl
+        @tox.hookimpl
         def tox_testenv_install_deps(self, action, venv):
             log.append(2)
 
@@ -765,11 +763,11 @@ def test_tox_testenv_pre_post(newmocksession):
     log = []
 
     class Plugin:
-        @hookimpl
+        @tox.hookimpl
         def tox_runtest_pre(self, venv):
             log.append('started')
 
-        @hookimpl
+        @tox.hookimpl
         def tox_runtest_post(self, venv):
             log.append('finished')
 
