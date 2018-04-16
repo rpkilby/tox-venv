@@ -2,9 +2,7 @@ import os
 import platform
 import subprocess
 
-import pluggy
-
-hookimpl = pluggy.HookimplMarker("tox")
+import tox
 
 
 def real_python3(python):
@@ -59,7 +57,7 @@ def use_builtin_venv(venv):
     return version is not None and version >= (3, 3)
 
 
-@hookimpl
+@tox.hookimpl
 def tox_testenv_create(venv, action):
     # Bypass hook when venv is not available for the target python version
     if not use_builtin_venv(venv):
