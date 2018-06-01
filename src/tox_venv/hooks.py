@@ -32,7 +32,7 @@ def real_python3(python):
     prefix = output.decode('UTF-8').strip()
 
     # determine absolute binary path
-    if platform.system() == 'Windows':
+    if platform.system() == 'Windows':  # pragma: no cover
         executable = 'python.exe'
     else:
         executable = 'bin/python3'

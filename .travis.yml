@@ -12,11 +12,17 @@ python:
 matrix:
   fast_finish: true
   allow_failures:
-  - python: pypy
+    - python: pypy
+
   include:
-  - os: osx
-    language: generic
-    env: TOXENV=py36
+    - os: osx
+      language: generic
+      env: TOXENV=py36
+
+    - python: 3.6
+      env: TOXENV="isort,lint,coverage"
+      after_success:
+        - pip install codecov && codecov
 
 before_install:
   - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then

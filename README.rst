@@ -5,6 +5,8 @@ tox-venv
   :target: https://travis-ci.org/tox-dev/tox-venv
 .. image:: https://ci.appveyor.com/api/projects/status/fak35ur9yibmn0ly?svg=true
   :target: https://ci.appveyor.com/project/rpkilby/tox-venv
+.. image:: https://codecov.io/gh/tox-dev/tox-venv/branch/master/graph/badge.svg
+  :target: https://codecov.io/gh/tox-dev/tox-venv
 .. image:: https://img.shields.io/pypi/v/tox-venv.svg
   :target: https://pypi.python.org/pypi/tox-venv
 .. image:: https://img.shields.io/pypi/l/tox-venv.svg
