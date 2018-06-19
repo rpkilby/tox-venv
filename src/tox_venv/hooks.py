@@ -35,7 +35,7 @@ def real_python3(python, version_dict):
 
     # get python prefix
     try:
-        output = subprocess.check_output(args)
+        output = subprocess.check_output(args, stderr=subprocess.STDOUT)
         prefix = output.decode('UTF-8').strip()
     except subprocess.CalledProcessError:
         # process fails, implies *not* in active virtualenv
