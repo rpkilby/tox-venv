@@ -79,6 +79,27 @@ def use_builtin_venv(venv):
 
 
 @tox.hookimpl
+def tox_addoption(parser):
+    parser.add_argument(
+        '--upgrade-venv',
+        dest='upgrade_venv',
+        action='store_true',
+        help='Upgrade pip and setuptools inside the venv.',
+    )
+
+    def upgrade_venv(testenv_config, value):
+        return testenv_config.config.option.upgrade_venv or value
+
+    parser.add_testenv_attribute(
+        name="upgrade_venv",
+        type="bool",
+        default=False,
+        postprocess=upgrade_venv,
+        help="Upgrade pip and setuptools inside the venv.",
+    )
+
+
+@tox.hookimpl
 def tox_testenv_create(venv, action):
     # Bypass hook when venv is not available for the target python version
     if not use_builtin_venv(venv):
@@ -101,5 +122,26 @@ def tox_testenv_create(venv, action):
     basepath.ensure(dir=1)
     args.append(venv.path.basename)
     venv._pcall(args, venv=False, action=action, cwd=basepath)
+
+    if venv.envconfig.upgrade_venv:
+        # Upgrade pip and setuptools inside the venv, like virtualenv does.
+        # We need to invoke pip as `python -m pip` otherwise self-upgrading
+        # fails on Windows as the pip.exe is locked while it is executing.
+        old_install_command = venv.envconfig.install_command
+        venv.envconfig.install_command = [
+            venv.envconfig.envpython,
+            '-m',
+            'pip',
+            'install',
+            '--upgrade',
+            '--disable-pip-version-check',
+            '{opts}',
+            '{packages}',
+        ]
+        try:
+            venv._install(['pip', 'setuptools'], action=action)
+        finally:
+            venv.envconfig.install_command = old_install_command
+
     # Return non-None to indicate the plugin has completed
     return True
