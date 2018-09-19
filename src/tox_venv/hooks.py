@@ -1,5 +1,8 @@
 import os
+import platform
 import subprocess
+
+import virtualenv
 
 import tox
 
@@ -102,4 +105,9 @@ def tox_testenv_create(venv, action):
     args.append(venv.path.basename)
     venv._pcall(args, venv=False, action=action, cwd=basepath)
     # Return non-None to indicate the plugin has completed
+    exe_dir = 'Scripts' if platform.system() == 'Windows' else 'bin'
+    virtualenv.install_wheel(
+        project_names=['setuptools', 'pip', 'wheel'],
+        py_executable=os.path.join(venv.path / exe_dir / 'python'),
+    )
     return True
