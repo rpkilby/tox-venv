@@ -13,6 +13,8 @@ from tox._pytestplugin import ReportExpectMock
 from tox.config import parseconfig
 from tox.session import Session
 
+from tox_venv.hooks import use_builtin_venv
+
 pytest_plugins = "pytester"
 
 
@@ -608,7 +610,7 @@ def _alwayscopy_not_supported():
 
 
 @pytest.mark.skipif(_alwayscopy_not_supported(), reason="Platform doesnt support alwayscopy")
-def test_alwayscopy(initproj, cmd):
+def test_alwayscopy(initproj, cmd, mocksession):
     initproj(
         "example123",
         filedefs={
@@ -619,12 +621,16 @@ def test_alwayscopy(initproj, cmd):
     """
         },
     )
+    venv = mocksession.getenv("python")
     result = cmd("-vv")
     assert not result.ret
-    assert "virtualenv --always-copy" in result.out
+    if use_builtin_venv(venv):
+        assert "venv --copies" in result.out
+    else:
+        assert "virtualenv --always-copy" in result.out
 
 
-def test_alwayscopy_default(initproj, cmd):
+def test_alwayscopy_default(initproj, cmd, mocksession):
     initproj(
         "example123",
         filedefs={
@@ -634,9 +640,13 @@ def test_alwayscopy_default(initproj, cmd):
     """
         },
     )
+    venv = mocksession.getenv("python")
     result = cmd("-vv")
     assert not result.ret
-    assert "virtualenv --always-copy" not in result.out
+    if use_builtin_venv(venv):
+        assert "venv --copies" not in result.out
+    else:
+        assert "virtualenv --always-copy" not in result.out
 
 
 @pytest.mark.skipif("sys.platform == 'win32'")
