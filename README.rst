@@ -9,6 +9,8 @@ tox-venv
   :target: https://codecov.io/gh/tox-dev/tox-venv
 .. image:: https://img.shields.io/pypi/v/tox-venv.svg
   :target: https://pypi.python.org/pypi/tox-venv
+.. image:: https://img.shields.io/pypi/pyversions/tox-venv.svg
+  :target: https://pypi.org/project/tox-venv/
 .. image:: https://img.shields.io/pypi/l/tox-venv.svg
   :target: https://pypi.python.org/pypi/tox-venv
 
