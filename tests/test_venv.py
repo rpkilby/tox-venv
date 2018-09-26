@@ -67,8 +67,8 @@ def test_create(monkeypatch, mocksession, newconfig):
         executable = sys.executable
         if use_builtin_venv(venv) and hasattr(sys, 'real_prefix'):
             # workaround virtualenv prefixing issue w/ venv on python3
-            _, executable = executable.rsplit('bin/', 1)
-            executable = os.path.join(sys.real_prefix, 'bin/', executable)
+            executable = 'python{}.{}'.format(*sys.version_info)
+            executable = os.path.join(sys.real_prefix, 'bin', executable)
         # realpath is needed for stuff like the debian symlinks
         assert py.path.local(executable).realpath() == py.path.local(args[0]).realpath()
         # assert Envconfig.toxworkdir in args
