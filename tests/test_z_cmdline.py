@@ -779,6 +779,9 @@ def test_verbosity(cmd, initproj, verbosity):
     result = cmd(verbosity)
     assert result.ret == 0
 
+    for line in result.outlines:
+        print(line)
+
     needle = "Successfully installed pkgX-0.0.5"
     if verbosity == "-vv":
         assert any(needle in line for line in result.outlines), result.outlines
