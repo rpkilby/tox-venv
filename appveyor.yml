@@ -5,6 +5,7 @@ environment:
     - TOXENV: py34
     - TOXENV: py35
     - TOXENV: py36
+    - TOXENV: py37
 
 matrix:
   fast_finish: true
