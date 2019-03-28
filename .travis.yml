@@ -21,7 +21,7 @@ matrix:
       env: TOXENV=py37
 
     - python: 3.7
-      env: TOXENV="fix_lint"
+      env: TOXENV="isort,lint,coverage"
       script: tox
       after_success:
         - pip install codecov && codecov
