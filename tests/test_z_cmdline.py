@@ -14,6 +14,8 @@ from tox._pytestplugin import ReportExpectMock
 from tox.config import parseconfig
 from tox.session import Session
 
+from tox_venv.hooks import use_builtin_venv
+
 pytest_plugins = "pytester"
 
 
@@ -627,28 +629,7 @@ def test_warning_emitted(cmd, initproj):
     assert "I am a warning" in result.err
 
 
-def _alwayscopy_not_supported():
-    # This is due to virtualenv bugs with alwayscopy in some platforms
-    # see: https://github.com/pypa/virtualenv/issues/565
-    supported = True
-    tmpdir = tempfile.mkdtemp()
-    try:
-        with open(os.devnull) as fp:
-            subprocess.check_call(
-                [sys.executable, "-m", "virtualenv", "--always-copy", tmpdir], stdout=fp, stderr=fp
-            )
-    except subprocess.CalledProcessError:
-        supported = False
-    finally:
-        shutil.rmtree(tmpdir)
-    return not supported
-
-
-alwayscopy_not_supported = _alwayscopy_not_supported()
-
-
-@pytest.mark.skipif(alwayscopy_not_supported, reason="Platform doesnt support alwayscopy")
-def test_alwayscopy(initproj, cmd):
+def test_alwayscopy(initproj, cmd, mocksession):
     initproj(
         "example123",
         filedefs={
@@ -659,12 +640,16 @@ def test_alwayscopy(initproj, cmd):
     """
         },
     )
+    venv = mocksession.getenv("python")
     result = cmd("-vv")
     assert not result.ret
-    assert "virtualenv --always-copy" in result.out
+    if use_builtin_venv(venv):
+        assert "venv --copies" in result.out
+    else:
+        assert "virtualenv --always-copy" in result.out
 
 
-def test_alwayscopy_default(initproj, cmd):
+def test_alwayscopy_default(initproj, cmd, mocksession):
     initproj(
         "example123",
         filedefs={
@@ -674,9 +659,13 @@ def test_alwayscopy_default(initproj, cmd):
     """
         },
     )
+    venv = mocksession.getenv("python")
     result = cmd("-vv")
     assert not result.ret
-    assert "virtualenv --always-copy" not in result.out
+    if use_builtin_venv(venv):
+        assert "venv --copies" not in result.out
+    else:
+        assert "virtualenv --always-copy" not in result.out
 
 
 @pytest.mark.skipif("sys.platform == 'win32'")
@@ -816,6 +805,12 @@ def test_envsitepackagesdir_skip_missing_issue280(cmd, initproj):
 def test_verbosity(cmd, initproj, verbosity):
     initproj(
         "pkgX-0.0.5",
+        # Note: This is related to https://github.com/tox-dev/tox#935
+        # For some reason, the .egg-info/ directory is interacting with the
+        # PYTHONPATH on Appveyor, causing the package to *not* be installed
+        # since pip already thinks it is. By setting the `src_root`, we can
+        # avoid the issue.
+        src_root="src",
         filedefs={
             "tox.ini": """
         [testenv]
