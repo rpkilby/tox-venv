@@ -10,13 +10,13 @@ def get_long_description():
 
 setup(
     name='tox-venv',
-    description='Use python3 venvs for python3 tox testenvs',
+    description='Use Python 3 venvs for Python 3 tox testenvs',
     long_description=get_long_description(),
     author='Ryan P Kilby',
-    author_email='rpkilby@ncsu.edu',
+    author_email='kilbyr@gmail.com',
     url='https://github.com/tox-dev/tox-venv',
     license='BSD',
-    version='0.3.1',
+    version='0.4.0',
     package_dir={'': 'src'},
     packages=find_packages('src'),
     entry_points={'tox': ['venv = tox_venv.hooks']},
