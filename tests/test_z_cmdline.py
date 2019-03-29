@@ -490,7 +490,6 @@ def test_result_json(cmd, initproj, example123):
                 assert False, "missing {}".format(command_type)
             for command in env_data[command_type]:
                 assert isinstance(command["command"], list)
-                assert command["output"]
                 assert "retcode" in command
                 assert isinstance(command["retcode"], int)
         # virtualenv, deps install, package install, freeze
