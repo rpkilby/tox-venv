@@ -1,6 +1,12 @@
 Unreleased
 ==========
 
+0.4.0 (2019-03-28)
+==================
+
+- Make plugin compatible with tox 3.8.1
+- Add Python 3.7 support
+
 0.3.1 (2018-06-24)
 ==================
 

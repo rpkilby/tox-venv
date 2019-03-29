@@ -9,6 +9,8 @@ tox-venv
   :target: https://codecov.io/gh/tox-dev/tox-venv
 .. image:: https://img.shields.io/pypi/v/tox-venv.svg
   :target: https://pypi.python.org/pypi/tox-venv
+.. image:: https://img.shields.io/pypi/pyversions/tox-venv.svg
+  :target: https://pypi.org/project/tox-venv/
 .. image:: https://img.shields.io/pypi/l/tox-venv.svg
   :target: https://pypi.python.org/pypi/tox-venv
 
@@ -68,6 +70,7 @@ Release process
 
 .. code-block::
 
-    $ pip install -U setuptools wheel
+    $ pip install -U twine setuptools wheel
     $ rm -rf dist/ build/
-    $ python setup.py bdist_wheel upload
+    # python setup.py sdist bdist_wheel
+    $ twine upload dist/*

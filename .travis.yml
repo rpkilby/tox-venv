@@ -1,34 +1,42 @@
 sudo: false
+dist: xenial
+
+branches:
+  only:
+  - master
 
 language: python
-
 python:
-  - 2.7
-  - 3.4
-  - 3.5
-  - 3.6
-  - pypy
+  - "2.7"
+  - "3.4"
+  - "3.5"
+  - "3.6"
+  - "3.7"
+  - "pypy3.5"
 
 matrix:
   fast_finish: true
   allow_failures:
-    - python: pypy
+    - python: "pypy3.5"
 
   include:
     - os: osx
       language: generic
       env: TOXENV=py36
 
-    - python: 3.6
+    - python: "3.7"
       env: TOXENV="isort,lint,coverage"
       script: tox
       after_success:
         - pip install codecov && codecov
         - coverage report
 
+
+# We don't need to get the latest version of Python 3 on macOS. While it
+# would be nice, the 5-10 minutes it takes to update Homebrew and upgrade
+# the various dependent packages, means that it's is not worth it.
 before_install:
   - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then
-      brew upgrade python;
       python3 -m venv venv;
       source venv/bin/activate;
     fi
