@@ -2,9 +2,8 @@ import os
 import platform
 import subprocess
 
-import virtualenv
-
 import tox
+import virtualenv
 from tox.venv import cleanup_for_venv
 
 
