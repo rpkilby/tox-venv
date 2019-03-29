@@ -1,6 +1,9 @@
 Unreleased
 ==========
 
+- #17: Like with ``virtualenv``, venvs are always created with a
+  late version of pip, setuptools, and wheel.
+
 0.4.0 (2019-03-28)
 ==================
 
