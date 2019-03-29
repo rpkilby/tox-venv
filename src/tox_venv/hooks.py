@@ -114,7 +114,8 @@ def tox_testenv_create(venv, action):
 
 def _update_installers(venv):
     exe_dir = 'Scripts' if platform.system() == 'Windows' else 'bin'
-    virtualenv.install_wheel(
+    exe = venv.path / exe_dir / 'python'
+    exe.dirpath().isdir() and virtualenv.install_wheel(
         project_names=['setuptools', 'pip', 'wheel'],
-        py_executable=str(venv.path / exe_dir / 'python'),
+        py_executable=str(exe),
     )
