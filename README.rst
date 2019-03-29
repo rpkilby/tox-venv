@@ -70,6 +70,7 @@ Release process
 
 .. code-block::
 
-    $ pip install -U setuptools wheel
+    $ pip install -U twine setuptools wheel
     $ rm -rf dist/ build/
-    $ python setup.py bdist_wheel upload
+    # python setup.py sdist bdist_wheel
+    $ twine upload dist/*
