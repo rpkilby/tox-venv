@@ -18,7 +18,7 @@ matrix:
   include:
     - os: osx
       language: generic
-      env: TOXENV=py37
+      env: TOXENV=py36
 
     - python: 3.7
       env: TOXENV="isort,lint,coverage"
@@ -29,7 +29,10 @@ matrix:
 
 before_install:
   - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then
-      brew upgrade python;
+      # We don't need to get the latest version of Python 3 on macOS. While it
+      # would be nice, the 5-10 minutes it takes to update Homebrew and upgrade
+      # the various dependent packages, means that it's not worth it.
+      # brew upgrade python;
       python3 -m venv venv;
       source venv/bin/activate;
     fi
