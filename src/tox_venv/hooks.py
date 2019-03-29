@@ -107,10 +107,14 @@ def tox_testenv_create(venv, action):
     basepath.ensure(dir=1)
     args.append(venv.path.basename)
     venv._pcall(args, venv=False, action=action, cwd=basepath)
+    _update_installers(venv)
     # Return non-None to indicate the plugin has completed
+    return True
+
+
+def _update_installers(venv):
     exe_dir = 'Scripts' if platform.system() == 'Windows' else 'bin'
     virtualenv.install_wheel(
         project_names=['setuptools', 'pip', 'wheel'],
         py_executable=str(venv.path / exe_dir / 'python'),
     )
-    return True
