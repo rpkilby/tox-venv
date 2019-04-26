@@ -117,4 +117,5 @@ def _update_installers(venv):
     exe.dirpath().isdir() and virtualenv.install_wheel(
         project_names=['setuptools', 'pip', 'wheel'],
         py_executable=str(exe),
+        download=True,
     )
