@@ -18,7 +18,7 @@ tox-venv
 What is tox-venv?
 -----------------
 
-tox-venv is a plugin that uses Python 3's builtin ``venv`` module for creating test environments, instead of creating
+tox-venv is a plugin that uses Python 3's builtin ``venv`` module for creating test environments instead of creating
 them with the ``virtualenv`` package. For Python versions that do not include ``venv`` (namely 3.2 and earlier), this
 package does nothing and reverts to tox's default implementation.
 
@@ -26,16 +26,10 @@ package does nothing and reverts to tox's default implementation.
 Why use tox-venv?
 -----------------
 
-``virtualenv`` is historically Python 2/3 compatible, however to achieve this, it ships some files that are pinned at
-their Python 2.6 version, such as the ``site`` module (see: `pypa/virtualenv#355`__). This has a few effects:
-
-__ https://github.com/pypa/virtualenv/issues/355
-
-- Builds using the ``-Werror`` option fail, as the deprecations are raised before the test suite can run.
-- Users cannot take advantage of newer features of the ``site`` module in their test environments.
-- Eventually, these deprecations will become exceptions in future versions of Python.
-
-By using the builtin ``venv`` module, these issues can be avoided.
+tox-venv was originally created because of compatibility issues between modern versions of Python and an aging
+``virtualenv``. Since then, ``virtualenv`` has undergone a major rewrite, and tox-venv has largely been made
+unnecessary. However, there may be cases where it's preferable to create test environments directly with the
+``venv`` module, in which case you should use tox-venv.
 
 
 Installation & Usage
