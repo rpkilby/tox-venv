@@ -1,18 +1,10 @@
 os: linux
 dist: xenial
+language: python
 
 branches:
   only:
   - master
-
-language: python
-python:
-  - "2.7"
-  - "3.5"
-  - "3.6"
-  - "3.7"
-  - "3.8"
-  - "pypy3.5"
 
 jobs:
   fast_finish: true
@@ -20,16 +12,27 @@ jobs:
     - python: "pypy3.5"
 
   include:
+    - { python: "2.7", env: TOXENV=py27 }
+    - { python: "3.5", env: TOXENV=py35 }
+    - { python: "3.6", env: TOXENV=py36 }
+    - { python: "3.7", env: TOXENV=py37 }
+    - { python: "3.8", env: TOXENV=py38 }
+    - { python: "pypy3.5", env: TOXENV=pypy }
+
     - os: osx
       language: generic
-      env: TOXENV=py37
+      env: TOXENV=py27,py37
 
     - python: "3.8"
-      env: TOXENV="isort,lint,coverage"
+      env: TOXENV="dist"
+      script:
+        - python setup.py bdist_wheel
+        - tox --installpkg ./dist/tox_venv-*.whl
+        - tox  # test sdist
+
+    - python: "3.8"
+      env: TOXENV="isort,lint"
       script: tox
-      after_success:
-        - pip install codecov && codecov
-        - coverage report
 
 
 # We don't need to get the latest version of Python 3 on macOS. While it
@@ -44,6 +47,8 @@ before_install:
     fi
 install:
   - pip install -U six setuptools wheel
-  - pip install -U tox tox-travis
-  - python setup.py bdist_wheel
-script: tox --installpkg ./dist/tox_venv-*.whl
+  - pip install -U tox
+script: tox
+after_success:
+  - pip install codecov && codecov
+  - coverage report
