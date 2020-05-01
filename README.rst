@@ -31,6 +31,10 @@ tox-venv was originally created because of compatibility issues between modern v
 unnecessary. However, there may be cases where it's preferable to create test environments directly with the
 ``venv`` module, in which case you should use tox-venv.
 
+tox-venv will emit a warning when invoked. If tox-venv is really desired, suppress the warning with the following warnings filter:
+
+    ignore:tox-venv is activated
+
 
 Installation & Usage
 --------------------

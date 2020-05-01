@@ -1,5 +1,6 @@
 import os
 import subprocess
+import warnings
 
 import tox
 from tox.venv import cleanup_for_venv
@@ -84,6 +85,12 @@ def tox_testenv_create(venv, action):
     # Bypass hook when venv is not available for the target python version
     if not use_builtin_venv(venv):
         return
+
+    warnings.warn(
+        "tox-venv is activated but its use is discouraged and "
+        "defects are unlikely to be fixed. "
+        "Remove the 'tox-venv' package from your environment "
+        "to use the preferred virtualenv package.")
 
     v = venv.envconfig.python_info.version_info
     version_dict = {'major': v[0], 'minor': v[1], 'micro': v[2]}
