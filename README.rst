@@ -1,6 +1,8 @@
 tox-venv
 ========
 
+Note the project has been deprecated as of 2020 May the 1st. ``virtualenv`` now creates venv style environments out of box, so this plugin is no longer needed.
+
 .. image:: https://travis-ci.org/tox-dev/tox-venv.svg?branch=master
   :target: https://travis-ci.org/tox-dev/tox-venv
 .. image:: https://ci.appveyor.com/api/projects/status/fak35ur9yibmn0ly?svg=true
